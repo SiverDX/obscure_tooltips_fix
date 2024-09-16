@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "minMixinExtrasVersion": "0.5.0-beta.3",
+  "plugin": "de.cadentem.obscure_tooltips_fix.mixin.ApplyMixinPlugin",
   "package": "de.cadentem.obscure_tooltips_fix.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "obscure_tooltips_fix.refmap.json",
