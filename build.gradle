@@ -70,8 +70,11 @@ repositories {
 dependencies {
     minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
 
-    implementation fg.deobf("curse.maven:emi-580555:5497473") // 1.1.10
-    implementation fg.deobf("curse.maven:obscure-tooltips-715660:4686579") // 2.2770828")
+    implementation fg.deobf("curse.maven:obscure-tooltips-715660:4686579") // 2.2
+
+    compileOnly fg.deobf("curse.maven:emi-580555:5497473") // 1.1.10
+
+    implementation fg.deobf("curse.maven:jei-238222:5736368") // 15.19.3.93
 
     /* --- Mixin Configuration --- */
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))

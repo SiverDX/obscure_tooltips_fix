@@ -1,4 +1,4 @@
-package de.cadentem.obscure_tooltips_fix.mixin;
+package de.cadentem.obscure_tooltips_fix.mixin.emi;
 
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;

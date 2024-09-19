@@ -9,7 +9,9 @@
   "mixins": [
   ],
   "client": [
-    "TooltipRendererMixin"
+    "emi.TooltipRendererMixin",
+    "jei.SafeIngredientUtilMixin",
+    "jei.TooltipRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

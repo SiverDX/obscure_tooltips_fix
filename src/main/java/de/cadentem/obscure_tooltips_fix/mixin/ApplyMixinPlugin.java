@@ -19,7 +19,13 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
-        return LoadingModList.get().getModFileById("emi") != null;
+        if (LoadingModList.get().getModFileById("emi") != null) {
+            return mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.emi.TooltipRendererMixin");
+        } else if (LoadingModList.get().getModFileById("jei") != null) {
+            return mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.jei.TooltipRendererMixin") || mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.jei.SafeIngredientUtilMixin");
+        }
+
+        return false;
     }
 
     @Override
