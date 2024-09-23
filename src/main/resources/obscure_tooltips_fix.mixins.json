@@ -14,7 +14,9 @@
     "apotheosis.TooltipRendererMixin",
     "emi.TooltipRendererMixin",
     "jei.SafeIngredientUtilMixin",
-    "jei.TooltipRendererMixin"
+    "jei.TooltipRendererMixin",
+    "roughlyenoughitems.ScreenOverlayImplForgeMixin",
+    "roughlyenoughitems.TooltipRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
