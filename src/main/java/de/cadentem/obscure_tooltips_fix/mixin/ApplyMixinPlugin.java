@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ApplyMixinPlugin implements IMixinConfigPlugin {
+    private final static String PREFIX = ApplyMixinPlugin.class.getPackageName() + ".";
+
     @Override
     public void onLoad(final String mixinPackage) { /* Nothing to do */ }
 
@@ -19,10 +21,14 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
+        if (mixinClassName.startsWith(PREFIX + "apotheosis")) {
+            return LoadingModList.get().getModFileById("apotheosis") != null;
+        }
+
         if (LoadingModList.get().getModFileById("emi") != null) {
-            return mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.emi.TooltipRendererMixin");
+            return mixinClassName.equals(PREFIX + "emi.TooltipRendererMixin");
         } else if (LoadingModList.get().getModFileById("jei") != null) {
-            return mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.jei.TooltipRendererMixin") || mixinClassName.equals("de.cadentem.obscure_tooltips_fix.mixin.jei.SafeIngredientUtilMixin");
+            return mixinClassName.equals(PREFIX + "jei.TooltipRendererMixin") || mixinClassName.equals(PREFIX + "jei.SafeIngredientUtilMixin");
         }
 
         return false;

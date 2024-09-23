@@ -9,6 +9,9 @@
   "mixins": [
   ],
   "client": [
+    "apotheosis.AdventureContainerScreenMixin",
+    "apotheosis.EnchModuleClientMixin",
+    "apotheosis.TooltipRendererMixin",
     "emi.TooltipRendererMixin",
     "jei.SafeIngredientUtilMixin",
     "jei.TooltipRendererMixin"

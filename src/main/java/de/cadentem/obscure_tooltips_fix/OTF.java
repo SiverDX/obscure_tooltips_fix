@@ -7,4 +7,5 @@ public class OTF {
     public static final String MODID = "obscure_tooltips_fix";
 
     public static boolean JEI_CONTEXT;
+    public static boolean APOTHEOSIS_SKIP;
 }
