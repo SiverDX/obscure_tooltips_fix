@@ -9,11 +9,13 @@ import net.minecraftforge.fml.config.ModConfig;
 public class OTF {
     public static final String MODID = "obscure_tooltips_fix";
 
+    public static boolean SKIP_SIDE_PANELS;
+    public static boolean CLEAR_LAST_HOVERED;
+
     public static boolean JEI_CONTEXT;
     public static boolean REI_CONTEXT;
     public static boolean APOTHEOSIS_SKIP;
     public static boolean FTBQUESTS_SKIP;
-    public static boolean SKIP_SIDE_PANELS;
 
     public OTF() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);

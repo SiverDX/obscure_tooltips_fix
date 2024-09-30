@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(QuestPanel.class)
 public interface QuestPanelAccess {
-    @Accessor("mouseOverQuest")
+    @Accessor(value = "mouseOverQuest", remap = false)
     QuestButton obscure_tooltips_fix$getMouseOverQuest();
 }

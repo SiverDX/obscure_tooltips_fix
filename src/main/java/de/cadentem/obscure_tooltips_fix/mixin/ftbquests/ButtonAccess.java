@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Button.class)
 public interface ButtonAccess {
-    @Accessor("icon")
+    @Accessor(value = "icon", remap = false)
     Icon obscure_tooltips_fix$getIcon();
 }

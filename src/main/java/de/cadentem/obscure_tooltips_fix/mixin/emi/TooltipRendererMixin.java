@@ -6,8 +6,10 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.obscuria.tooltips.client.renderer.TooltipContext;
 import com.obscuria.tooltips.client.renderer.TooltipRenderer;
+import de.cadentem.obscure_tooltips_fix.OTF;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.screen.EmiScreenManager;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +29,11 @@ public abstract class TooltipRendererMixin {
     @ModifyVariable(method = "render", at = @At(value = "HEAD"), argsOnly = true)
     private static ItemStack obscure_tooltips_fix$handleEmptyStack(final ItemStack tooltipStack, /* Method arguments */ final TooltipContext context, final ItemStack ignored, final Font font, final List<ClientTooltipComponent> components, final int x, final int y) {
         if (tooltipStack.isEmpty()) {
+            if (OTF.CLEAR_LAST_HOVERED) {
+                EmiScreenManager.lastStackTooltipRendered = null;
+                OTF.CLEAR_LAST_HOVERED = false;
+            }
+
             List<EmiStack> stacks = EmiApi.getHoveredStack(x, y, true).getStack().getEmiStacks();
 
             if (!stacks.isEmpty()) {
