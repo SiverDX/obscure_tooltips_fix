@@ -9,4 +9,5 @@ public class OTF {
     public static boolean JEI_CONTEXT;
     public static boolean REI_CONTEXT;
     public static boolean APOTHEOSIS_SKIP;
+    public static boolean FTBQUESTS_SKIP;
 }

@@ -21,18 +21,18 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(final String targetClassName, final String mixinClassName) {
-        if (mixinClassName.startsWith(PREFIX + "apotheosis")) {
-            return LoadingModList.get().getModFileById("apotheosis") != null;
-        }
+        String directory = mixinClassName.replace(PREFIX, "");
+        directory = directory.replace("client.", "");
+        String[] elements = directory.split("\\.");
 
-        boolean isEmiPresent = LoadingModList.get().getModFileById("emi") != null;
+        if (elements.length == 2) {
+            String modid = elements[0];
 
-        if (mixinClassName.startsWith(PREFIX + "emi")) {
-            return isEmiPresent;
-        } else if (mixinClassName.startsWith(PREFIX + "jei")) {
-            return !isEmiPresent && LoadingModList.get().getModFileById("jei") != null;
-        } else if (mixinClassName.startsWith(PREFIX + "roughlyenoughitems")) {
-            return LoadingModList.get().getModFileById("roughlyenoughitems") != null;
+            if (modid.equals("jei")) {
+                return LoadingModList.get().getModFileById("emi") == null;
+            }
+
+            return LoadingModList.get().getModFileById(modid) != null;
         }
 
         return false;
