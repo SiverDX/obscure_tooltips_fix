@@ -1,6 +1,7 @@
 package de.cadentem.obscure_tooltips_fix.mixin.ftbquests;
 
 import de.cadentem.obscure_tooltips_fix.OTF;
+import de.cadentem.obscure_tooltips_fix.config.ClientConfig;
 import dev.ftb.mods.ftblibrary.icon.AtlasSpriteIcon;
 import dev.ftb.mods.ftblibrary.ui.BaseScreen;
 import dev.ftb.mods.ftblibrary.ui.ScreenWrapper;
@@ -29,6 +30,10 @@ public abstract class ScreenWrapperMixin {
                     break;
                 }
             }
+        }
+
+        if (!OTF.FTBQUESTS_SKIP && ClientConfig.FTB_QUESTS_SKIP_SIDE_PANELS.get()) {
+            OTF.SKIP_SIDE_PANELS = true;
         }
     }
 }

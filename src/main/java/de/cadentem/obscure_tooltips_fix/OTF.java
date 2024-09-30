@@ -1,6 +1,9 @@
 package de.cadentem.obscure_tooltips_fix;
 
+import de.cadentem.obscure_tooltips_fix.config.ClientConfig;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 
 @Mod(OTF.MODID)
 public class OTF {
@@ -10,4 +13,9 @@ public class OTF {
     public static boolean REI_CONTEXT;
     public static boolean APOTHEOSIS_SKIP;
     public static boolean FTBQUESTS_SKIP;
+    public static boolean SKIP_SIDE_PANELS;
+
+    public OTF() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+    }
 }

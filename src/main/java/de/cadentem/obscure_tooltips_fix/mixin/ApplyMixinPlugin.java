@@ -35,7 +35,7 @@ public class ApplyMixinPlugin implements IMixinConfigPlugin {
             return LoadingModList.get().getModFileById(modid) != null;
         }
 
-        return false;
+        return true;
     }
 
     @Override

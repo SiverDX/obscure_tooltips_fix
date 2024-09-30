@@ -6,9 +6,8 @@
   "package": "de.cadentem.obscure_tooltips_fix.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "obscure_tooltips_fix.refmap.json",
-  "mixins": [
-  ],
   "client": [
+    "TooltipRendererMixin",
     "apotheosis.AdventureContainerScreenMixin",
     "apotheosis.EnchModuleClientMixin",
     "apotheosis.TooltipRendererMixin",
