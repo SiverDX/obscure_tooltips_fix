@@ -13,6 +13,7 @@
     "apotheosis.TooltipRendererMixin",
     "emi.TooltipRendererMixin",
     "ftbquests.ButtonAccess",
+    "ftbquests.ChapterImageButtonMixin",
     "ftbquests.QuestPanelAccess",
     "ftbquests.ScreenWrapperMixin",
     "ftbquests.TooltipRendererMixin",

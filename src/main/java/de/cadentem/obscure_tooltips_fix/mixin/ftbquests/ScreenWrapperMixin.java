@@ -23,6 +23,10 @@ public abstract class ScreenWrapperMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;renderTooltip(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;II)V", shift = At.Shift.BEFORE))
     private void obscure_tooltips_fix$setSkip(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks, final CallbackInfo callback) {
+        if (OTF.FTBQUESTS_SKIP) {
+            return;
+        }
+
         for (Widget widget : wrappedGui.getWidgets()) {
             if (widget instanceof QuestPanelAccess panel) {
                 QuestButton quest = panel.obscure_tooltips_fix$getMouseOverQuest();
