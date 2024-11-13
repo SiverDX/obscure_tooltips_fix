@@ -76,18 +76,20 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jei-238222:5736368") // 15.19.3.93
 
-    implementation fg.deobf("curse.maven:ftb-quests-forge-289412:5543955") // 2001.4.8
-    implementation fg.deobf("curse.maven:architectury-api-419699:5137938") // 9.2.14
-    implementation fg.deobf("curse.maven:ftb-library-forge-404465:5567591") // 2001.2.4
-    implementation fg.deobf("curse.maven:ftb-teams-forge-404468:5267190") // 2001.3.0
+    compileOnly fg.deobf("curse.maven:ftb-quests-forge-289412:5543955") // 2001.4.8
+    compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938") // 9.2.14
+    compileOnly fg.deobf("curse.maven:ftb-library-forge-404465:5567591") // 2001.2.4
+    compileOnly fg.deobf("curse.maven:ftb-teams-forge-404468:5267190") // 2001.3.0
 
     compileOnly fg.deobf("curse.maven:roughly-enough-items-310111:5731526") // 12.1.770
     compileOnly fg.deobf("curse.maven:cloth-config-348521:5729105") // 11.1.136
     compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938") // 9.2.14
 
-    compileOnly fg.deobf("curse.maven:apotheosis-313970:5642736") // 7.4.2
-    compileOnly fg.deobf("curse.maven:apothic-attributes-898963:5634071") // 1.3.7
-    compileOnly fg.deobf("curse.maven:placebo-283644:5414631") // 8.6.2
+    implementation fg.deobf("curse.maven:apotheosis-313970:5642736") // 7.4.2
+    implementation fg.deobf("curse.maven:apothic-attributes-898963:5634071") // 1.3.7
+    implementation fg.deobf("curse.maven:placebo-283644:5414631") // 8.6.2
+
+    implementation fg.deobf("curse.maven:toms-storage-378609:5548573") // 1.6.8
 
     /* --- Mixin Configuration --- */
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))

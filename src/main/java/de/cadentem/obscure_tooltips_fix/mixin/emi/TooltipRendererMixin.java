@@ -53,7 +53,9 @@ public abstract class TooltipRendererMixin {
         if (!original && obscure_tooltips_fix$switched) {
             obscure_tooltips_fix$switched = false;
 
-            if (stack.getItem() == renderStack.getItem()) {
+            // In certain cases (e.g. with 'Tom's Simple Storage Mod') EMI will provide the item with a stack count of 1 while the actual stack size is 64 or sth. else
+            // Therefor skip checking if the count matches to avoid display issues
+            if (ItemStack.isSameItemSameTags(stack, renderStack)) {
                 return true;
             }
         }
