@@ -3,6 +3,7 @@ package de.cadentem.obscure_tooltips_fix.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.nbt.*;
 
 /** Totally not AI generated */
@@ -15,6 +16,10 @@ public class NBTUtils {
      * @return True if the tags are considered equal within the fuzzy constraints, false otherwise.
      */
     public static boolean matches(final CompoundTag base, final CompoundTag toCompare) {
+        if (base == null || base.isEmpty()) {
+            return toCompare == null || toCompare.isEmpty();
+        }
+
         for (String key : base.getAllKeys()) {
             if (!toCompare.contains(key)) {
                 return false;
@@ -163,7 +168,9 @@ public class NBTUtils {
      * @param value       The JsonPrimitive value.
      */
     private static void processJsonPrimitive(final CompoundTag compoundTag, final String key, final JsonElement value) {
-        if (value.getAsJsonPrimitive().isNumber()) {
+        JsonPrimitive primitive = value.getAsJsonPrimitive();
+
+        if (primitive.isNumber()) {
             Number number = value.getAsNumber();
 
             if (number instanceof Integer) {
@@ -176,9 +183,9 @@ public class NBTUtils {
                 // Assume double for other cases
                 compoundTag.putDouble(key, number.doubleValue());
             }
-        } else if (value.getAsJsonPrimitive().isBoolean()) {
+        } else if (primitive.isBoolean()) {
             compoundTag.putBoolean(key, value.getAsBoolean());
-        } else if (value.getAsJsonPrimitive().isString()) {
+        } else if (primitive.isString()) {
             compoundTag.putString(key, value.getAsString());
         }
     }
