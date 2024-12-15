@@ -49,7 +49,7 @@ public abstract class StyleFilterMixin implements NBTFilter {
     }
 
     @Override
-    public CompoundTag obscure_tooltips_fix$getTag() {
+    public @Nullable CompoundTag obscure_tooltips_fix$getTag() {
         return obscure_tooltips_fix$NBT;
     }
 }
