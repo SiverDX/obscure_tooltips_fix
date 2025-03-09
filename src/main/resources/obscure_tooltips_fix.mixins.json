@@ -1,7 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "minMixinExtrasVersion": "0.5.0-beta.4",
+  "mixinextras": {
+    "minVersion": "0.5.0-beta.5"
+  },
   "plugin": "de.cadentem.obscure_tooltips_fix.mixin.ApplyMixinPlugin",
   "package": "de.cadentem.obscure_tooltips_fix.mixin",
   "compatibilityLevel": "JAVA_17",
@@ -12,14 +14,14 @@
     "apotheosis.AdventureContainerScreenMixin",
     "apotheosis.EnchModuleClientMixin",
     "apotheosis.TooltipRendererMixin",
+    "emi.HoverAccess",
+    "emi.RecipeScreenAccess",
     "emi.TooltipRendererMixin",
     "ftbquests.ButtonAccess",
     "ftbquests.ChapterImageButtonMixin",
     "ftbquests.QuestPanelAccess",
     "ftbquests.ScreenWrapperMixin",
     "ftbquests.TooltipRendererMixin",
-    "jei.SafeIngredientUtilMixin",
-    "jei.TooltipRendererMixin",
     "roughlyenoughitems.ScreenOverlayImplForgeMixin",
     "roughlyenoughitems.TooltipRendererMixin"
   ],

@@ -7,9 +7,17 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.obscuria.tooltips.client.renderer.TooltipContext;
 import com.obscuria.tooltips.client.renderer.TooltipRenderer;
 import de.cadentem.obscure_tooltips_fix.OTF;
+import de.cadentem.obscure_tooltips_fix.config.ClientConfig;
+import de.cadentem.obscure_tooltips_fix.utils.Compat;
 import dev.emi.emi.api.EmiApi;
+import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.SlotWidget;
+import dev.emi.emi.api.widget.Widget;
+import dev.emi.emi.screen.BoMScreen;
 import dev.emi.emi.screen.EmiScreenManager;
+import dev.emi.emi.screen.WidgetGroup;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -34,15 +42,56 @@ public abstract class TooltipRendererMixin {
                 OTF.CLEAR_LAST_HOVERED = false;
             }
 
-            List<EmiStack> stacks = EmiApi.getHoveredStack(x, y, true).getStack().getEmiStacks();
+            if (EmiApi.getHandledScreen() == null || ClientConfig.SCREEN_BLACKLIST.get().contains(Compat.getScreen())) {
+                return tooltipStack;
+            }
 
+            List<EmiStack> stacks = List.of();
+
+            if (Minecraft.getInstance().screen instanceof RecipeScreenAccess access) {
+                stacks = obscure_tooltips_fix$getRecipeStacks(access, x, y);
+            }
+
+            if (Minecraft.getInstance().screen instanceof BoMScreen bomScreen && bomScreen.getHoveredStack(x, y) instanceof HoverAccess access) {
+                EmiIngredient ingredient = access.obscure_tooltips_fix$getStack();
+
+                if (ingredient != null) {
+                    stacks = ingredient.getEmiStacks();
+                }
+            }
+
+            if (stacks.isEmpty()) {
+                stacks = EmiApi.getHoveredStack(x, y, true).getStack().getEmiStacks();
+            }
+
+            // TODO :: iterate through them?
             if (!stacks.isEmpty()) {
-                obscure_tooltips_fix$switched = true;
-                return stacks.get(0).getItemStack();
+                ItemStack stack = stacks.get(0).getItemStack();
+
+                if (!stack.isEmpty()) {
+                    obscure_tooltips_fix$switched = true;
+                    return stack;
+                }
             }
         }
 
         return tooltipStack;
+    }
+
+    @Unique
+    private static List<EmiStack> obscure_tooltips_fix$getRecipeStacks(final RecipeScreenAccess access, final int x, final int y) {
+        for (WidgetGroup group : access.obscure_tooltips_fix$getCurrentPage()) {
+            int actualX = x - group.x();
+            int actualY = y - group.y();
+
+            for (Widget widget : group.widgets) {
+                if (widget instanceof SlotWidget slotWidget && widget.getBounds().contains(actualX, actualY)) {
+                    return slotWidget.getStack().getEmiStacks();
+                }
+            }
+        }
+
+        return List.of();
     }
 
     @Definition(id = "renderStack", field = "Lcom/obscuria/tooltips/client/renderer/TooltipRenderer;renderStack:Lnet/minecraft/world/item/ItemStack;")
