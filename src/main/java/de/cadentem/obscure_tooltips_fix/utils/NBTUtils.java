@@ -1,10 +1,12 @@
 package de.cadentem.obscure_tooltips_fix.utils;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import net.minecraft.nbt.*;
+import com.mojang.serialization.JsonOps;
+import de.cadentem.obscure_tooltips_fix.OTF;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NumericTag;
+import net.minecraft.nbt.Tag;
 
 /** Totally not AI generated */
 public class NBTUtils {
@@ -49,6 +51,12 @@ public class NBTUtils {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted") // ignore
     private static boolean matches(final Tag baseTag, final Tag otherTag) {
+        if (baseTag instanceof NumericTag first && otherTag instanceof NumericTag second) {
+            // Since there is no proper way to specify an integer in the style filter
+            // It will therefor convert numbers from 0 to 8 to bytes (0d to 8d) and make it a ByteTag, no longer matching properly
+            return first.getAsDouble() == second.getAsDouble();
+        }
+
         if (baseTag.getType() != otherTag.getType()) {
             return false;
         }
@@ -102,117 +110,6 @@ public class NBTUtils {
             return simple;
         }
 
-        return processJsonObject(jsonElement.getAsJsonObject());
-    }
-
-    /**
-     * Processes a JsonObject and converts it to a CompoundTag.
-     *
-     * @param jsonObject The JsonObject to convert.
-     * @return CompoundTag representation of the JsonObject.
-     */
-    private static CompoundTag processJsonObject(final JsonObject jsonObject) {
-        CompoundTag compoundTag = new CompoundTag();
-
-        for (String key : jsonObject.keySet()) {
-            JsonElement value = jsonObject.get(key);
-
-            if (value.isJsonObject()) {
-                // Nested object
-                compoundTag.put(key, processJsonObject(value.getAsJsonObject()));
-            } else if (value.isJsonArray()) {
-                // Array
-                compoundTag.put(key, processJsonArray(value.getAsJsonArray()));
-            } else if (value.isJsonPrimitive()) {
-                // Primitive types
-                processJsonPrimitive(compoundTag, key, value);
-            } else if (value.isJsonNull()) {
-                // Null values ignored or handle specifically.
-                compoundTag.putString(key, "null");
-            }
-        }
-
-        return compoundTag;
-    }
-
-    /**
-     * Processes a JsonArray and converts it to a ListTag.
-     *
-     * @param jsonArray The JsonArray to convert.
-     * @return ListTag representation of the JsonArray.
-     */
-    private static ListTag processJsonArray(final JsonArray jsonArray) {
-        ListTag listTag = new ListTag();
-
-        for (JsonElement element : jsonArray) {
-            if (element.isJsonObject()) {
-                listTag.add(processJsonObject(element.getAsJsonObject()));
-            } else if (element.isJsonArray()) {
-                listTag.add(processJsonArray(element.getAsJsonArray()));
-            } else if (element.isJsonPrimitive()) {
-                addPrimitiveToListTag(listTag, element.getAsJsonPrimitive());
-            } else if (element.isJsonNull()) {
-                // Handle null case if needed, e.g., add placeholder value
-                listTag.add(StringTag.valueOf("null"));
-            }
-        }
-
-        return listTag;
-    }
-
-    /**
-     * Processes a JsonPrimitive and adds it to a CompoundTag.
-     *
-     * @param compoundTag The CompoundTag to add the primitive to.
-     * @param key         The key in the CompoundTag.
-     * @param value       The JsonPrimitive value.
-     */
-    private static void processJsonPrimitive(final CompoundTag compoundTag, final String key, final JsonElement value) {
-        JsonPrimitive primitive = value.getAsJsonPrimitive();
-
-        if (primitive.isNumber()) {
-            Number number = value.getAsNumber();
-
-            if (number instanceof Integer) {
-                compoundTag.putInt(key, number.intValue());
-            } else if (number instanceof Long) {
-                compoundTag.putLong(key, number.longValue());
-            } else if (number instanceof Float) {
-                compoundTag.putFloat(key, number.floatValue());
-            } else {
-                // Assume double for other cases
-                compoundTag.putDouble(key, number.doubleValue());
-            }
-        } else if (primitive.isBoolean()) {
-            compoundTag.putBoolean(key, value.getAsBoolean());
-        } else if (primitive.isString()) {
-            compoundTag.putString(key, value.getAsString());
-        }
-    }
-
-    /**
-     * Adds a JsonPrimitive to a ListTag.
-     *
-     * @param listTag   The ListTag to add the primitive to.
-     * @param primitive The JsonPrimitive to add.
-     */
-    private static void addPrimitiveToListTag(final ListTag listTag, final JsonElement primitive) {
-        if (primitive.getAsJsonPrimitive().isNumber()) {
-            Number number = primitive.getAsNumber();
-
-            if (number instanceof Integer) {
-                listTag.add(IntTag.valueOf(number.intValue()));
-            } else if (number instanceof Long) {
-                listTag.add(LongTag.valueOf(number.longValue()));
-            } else if (number instanceof Float) {
-                listTag.add(FloatTag.valueOf(number.floatValue()));
-            } else {
-                listTag.add(DoubleTag.valueOf(number.doubleValue()));
-            }
-        } else if (primitive.getAsJsonPrimitive().isBoolean()) {
-            listTag.add(ByteTag.valueOf((byte) (primitive.getAsBoolean() ? 1 : 0)));
-        } else if (primitive.getAsJsonPrimitive().isString()) {
-            listTag.add(StringTag.valueOf(primitive.getAsString()));
-        }
+        return CompoundTag.CODEC.parse(JsonOps.INSTANCE, jsonElement.getAsJsonObject()).resultOrPartial(OTF.LOG::error).orElse(new CompoundTag());
     }
 }

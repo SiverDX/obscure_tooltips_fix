@@ -1,5 +1,6 @@
 package de.cadentem.obscure_tooltips_fix;
 
+import com.mojang.logging.LogUtils;
 import de.cadentem.obscure_tooltips_fix.config.ClientConfig;
 import de.cadentem.obscure_tooltips_fix.utils.KeyHandler;
 import net.minecraftforge.fml.ModList;
@@ -7,10 +8,12 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.slf4j.Logger;
 
 @Mod(OTF.MODID)
 public class OTF {
     public static final String MODID = "obscure_tooltips_fix";
+    public static final Logger LOG = LogUtils.getLogger();
 
     public static boolean SKIP_SIDE_PANELS;
     public static boolean CLEAR_LAST_HOVERED;
